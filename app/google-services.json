@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "478792619490",
+    "project_id": "quantumydemo",
+    "storage_bucket": "quantumydemo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:478792619490:android:52c21f7fb3c2b904c295bb",
+        "android_client_info": {
+          "package_name": "com.quantumy.cursofirebaselite"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxr4lzh1TSGQfkPkH77bsiyVB8S2Clk-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
