@@ -1,6 +1,7 @@
 package com.quantumy.cursofirebaselite
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -45,7 +46,12 @@ class MainActivity : ComponentActivity() {
         super.onStart()
         val currentUser = auth.currentUser
         if (currentUser != null){
-         ///   navHostController.navigate("home")
+            //navHostController.navigate("home")
+            Log.i("Login", "Usuario logueado")
+
+            auth.signOut()
+        }else{
+
         }
     }
 

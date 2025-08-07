@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.firebase.auth.FirebaseAuth
+import com.quantumy.cursofirebaselite.presentation.home.HomeScreen
 import com.quantumy.cursofirebaselite.presentation.initial.InitialScreen
 import com.quantumy.cursofirebaselite.presentation.login.LoginScreen
 import com.quantumy.cursofirebaselite.presentation.sigup.SigUpScreen
@@ -22,11 +23,13 @@ fun NavigationWrapper(
             )
         }
         composable("login"){
-            LoginScreen()
+            LoginScreen(auth,navHostController)
         }
         composable("sigup"){
-            SigUpScreen()
-
+            SigUpScreen(auth,navHostController)
+        }
+        composable("home"){
+            HomeScreen()
         }
 
     }
