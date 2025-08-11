@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.quantumy.cursofirebaselite.presentation.home.HomeScreen
 import com.quantumy.cursofirebaselite.presentation.initial.InitialScreen
 import com.quantumy.cursofirebaselite.presentation.login.LoginScreen
@@ -13,7 +14,8 @@ import com.quantumy.cursofirebaselite.presentation.sigup.SigUpScreen
 @Composable
 fun NavigationWrapper(
     navHostController: NavHostController,
-    auth: FirebaseAuth
+    auth: FirebaseAuth,
+    db: FirebaseFirestore,
 ) {
     NavHost(navController = navHostController, startDestination = "initial"){
         composable("initial"){
@@ -29,7 +31,7 @@ fun NavigationWrapper(
             SigUpScreen(auth,navHostController)
         }
         composable("home"){
-            HomeScreen()
+            HomeScreen(db)
         }
 
     }

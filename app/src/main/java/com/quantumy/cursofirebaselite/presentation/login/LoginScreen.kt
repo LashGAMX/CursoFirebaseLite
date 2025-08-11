@@ -53,7 +53,9 @@ fun LoginScreen(auth: FirebaseAuth, navHostController: NavHostController,) {
                 painter = painterResource(id = R.drawable.ic_back_24),
                 contentDescription = "",
                 tint = White,
-                modifier = Modifier.padding(vertical = 24.dp).size(24.dp).clickable { navHostController.popBackStack() }
+                modifier = Modifier.padding(vertical = 24.dp).size(24.dp).clickable {
+                    navHostController.popBackStack()
+                }
             )
             Spacer(modifier = Modifier.weight(1f))
         }
