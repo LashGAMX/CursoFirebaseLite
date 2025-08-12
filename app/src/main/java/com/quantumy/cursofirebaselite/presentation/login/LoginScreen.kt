@@ -32,38 +32,39 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
 import com.quantumy.cursofirebaselite.R
+import com.quantumy.cursofirebaselite.presentation.home.HomeScreen
 import com.quantumy.cursofirebaselite.ui.theme.Black
 import com.quantumy.cursofirebaselite.ui.theme.SelectedField
 import com.quantumy.cursofirebaselite.ui.theme.UnselectedField
-
 @Composable
+fun LoginScreen(auth: FirebaseAuth, navigateToHome:() -> Unit) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
-fun LoginScreen(auth: FirebaseAuth, navHostController: NavHostController,) {
-    var email: String by remember { mutableStateOf("") }
-    var password: String by remember { mutableStateOf("") }
-    Column (
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Black)
             .padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Row (){
+    ) {
+
+        Row(){
             Icon(
                 painter = painterResource(id = R.drawable.ic_back_24),
                 contentDescription = "",
                 tint = White,
-                modifier = Modifier.padding(vertical = 24.dp).size(24.dp).clickable {
-                    navHostController.popBackStack()
-                }
+                modifier = Modifier
+                    .padding(vertical = 24.dp)
+                    .size(24.dp)
             )
             Spacer(modifier = Modifier.weight(1f))
         }
 
-        Text("Email",color = White, fontWeight = FontWeight.Bold, fontSize = 40.sp)
+        Text("Email", color = White, fontWeight = FontWeight.Bold, fontSize = 40.sp)
         TextField(
             value = email,
-            onValueChange = {email = it},
+            onValueChange = { email = it },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = UnselectedField,
@@ -71,10 +72,9 @@ fun LoginScreen(auth: FirebaseAuth, navHostController: NavHostController,) {
             )
         )
         Spacer(Modifier.height(48.dp))
-        Text("Password",color = White, fontWeight = FontWeight.Bold, fontSize = 40.sp)
+        Text("Password", color = White, fontWeight = FontWeight.Bold, fontSize = 40.sp)
         TextField(
-            value = password,
-            onValueChange = {password = it},
+            value = password, onValueChange = { password = it },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = UnselectedField,
@@ -82,20 +82,17 @@ fun LoginScreen(auth: FirebaseAuth, navHostController: NavHostController,) {
             )
         )
         Spacer(Modifier.height(48.dp))
-        Button(
-            onClick = {
-                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener{task ->
-                    if (task.isSuccessful) {
-                        //Navegar
-                        Log.d("Login", "Login correcto")
-                    }else{
-                        //Error
-                        Log.d("Login", "Login incorrecto")
-
-                    }
+        Button(onClick = {
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener{ task ->
+                if(task.isSuccessful){
+                    navigateToHome()
+                    Log.i("aris", "LOGIN OK")
+                }else{
+                    //Error
+                    Log.i("aris", "LOGIN KO")
                 }
             }
-        ) {
+        }) {
             Text(text = "Login")
         }
     }

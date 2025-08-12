@@ -71,7 +71,7 @@ fun InitialScreen (navigationToLogin: () -> Unit = {}, navigationToSigUp: () -> 
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp)
-                .clickable { navigationToSigUp() },
+                .clickable { navigationToSigUp () },
             colors = ButtonDefaults.buttonColors(containerColor = Green)
         ) {
             Text(

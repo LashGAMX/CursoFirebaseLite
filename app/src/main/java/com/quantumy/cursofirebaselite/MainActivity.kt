@@ -22,18 +22,19 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.quantumy.cursofirebaselite.presentation.home.HomeScreen
 import com.quantumy.cursofirebaselite.ui.theme.CursoFirebaseLiteTheme
 
 class MainActivity : ComponentActivity() {
 
     private lateinit var navHostController: NavHostController
     private lateinit var auth: FirebaseAuth
-    private lateinit var db: FirebaseFirestore
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
-        db = Firebase.firestore
+
         enableEdgeToEdge()
         setContent {
             navHostController = rememberNavController()
@@ -42,7 +43,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ){
-                    NavigationWrapper(navHostController,auth,db)
+                    NavigationWrapper(navHostController,auth)
                 }
             }
         }
@@ -54,7 +55,7 @@ class MainActivity : ComponentActivity() {
         if (currentUser != null){
             //navHostController.navigate("home")
             Log.i("Login", "Usuario logueado")
-
+            //HomeScreen(db)
             auth.signOut()
         }else{
 

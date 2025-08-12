@@ -15,9 +15,9 @@ import com.quantumy.cursofirebaselite.presentation.sigup.SigUpScreen
 fun NavigationWrapper(
     navHostController: NavHostController,
     auth: FirebaseAuth,
-    db: FirebaseFirestore,
+
 ) {
-    NavHost(navController = navHostController, startDestination = "initial"){
+    NavHost(navController = navHostController, startDestination = "home"){
         composable("initial"){
             InitialScreen(
                 navigationToLogin = { navHostController.navigate("login") },
@@ -25,13 +25,15 @@ fun NavigationWrapper(
             )
         }
         composable("login"){
-            LoginScreen(auth,navHostController)
+            LoginScreen(auth){
+                navHostController.navigate("home")
+            }
         }
         composable("sigup"){
             SigUpScreen(auth,navHostController)
         }
         composable("home"){
-            HomeScreen(db)
+            HomeScreen()
         }
 
     }
