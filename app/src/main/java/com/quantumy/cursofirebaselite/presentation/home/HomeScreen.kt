@@ -1,5 +1,8 @@
 package com.quantumy.cursofirebaselite.presentation.home
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.widget.Space
 import androidx.compose.foundation.background
@@ -14,18 +17,25 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
+
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -36,6 +46,40 @@ import com.quantumy.cursofirebaselite.ui.theme.Black
 fun HomeScreen (viewModel: HomeViewModel = HomeViewModel()){
 
     val artists = viewModel.artist.collectAsState()
+    val blockVersion by viewModel.blockVersion.collectAsState()
+
+    if (blockVersion){
+        val context = LocalContext.current
+        Dialog(
+            onDismissRequest = {},
+            properties = DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false
+            )
+        ) {
+            Card (
+                colors = CardDefaults.cardColors(containerColor = Color.White)
+            ){
+                Column (
+                    modifier = Modifier.fillMaxSize().
+                    height(300.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                )
+                {
+                    Text(text = "ACTUALIZA TU VERSION", fontSize = 22.sp, color = Black, fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "Para poder disfrutar de todo nuestro cotenido actualice la app", fontSize = 16.sp, color = Color.Gray)
+                    Button(
+                        onClick = {
+                            navigateToPlayStore(context)
+                        }
+                    ) {
+                        Text(text = "Actualizar")
+                    }
+                }
+            }
+        }
+    }
     Column (
         modifier = Modifier.fillMaxSize().background(Black)
     ){
@@ -99,3 +143,22 @@ fun ArtistItemPreview(){
 //            Log.i("Lash ","COMPLETE")
 //        }
 //}
+
+fun navigateToPlayStore(context: Context){
+    val appPackage = context.packageName
+    try {
+        context.startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("market://details?id=$appPackage")
+            )
+        )
+    }catch (e: Exception){
+        context.startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://play.google.com/store/apps/details?id=$appPackage")
+            )
+        )
+    }
+}

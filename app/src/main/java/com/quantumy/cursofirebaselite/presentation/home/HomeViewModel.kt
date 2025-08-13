@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.quantumy.cursofirebaselite.domain.CanAccessToApp
 import com.quantumy.cursofirebaselite.presentation.model.Artist
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,16 +19,30 @@ class  HomeViewModel:ViewModel(){
 
     private val _artists = MutableStateFlow<List<Artist>>(emptyList())
     private var db: FirebaseFirestore = Firebase.firestore
+    private var canAccessToApp: CanAccessToApp = CanAccessToApp()
 
 
     val artist: StateFlow<List<Artist>> = _artists
+
+    private val _blockVersion = MutableStateFlow<Boolean>(false)
+    val blockVersion: StateFlow<Boolean> = _blockVersion
 
     init {
 //        repeat(20){
 //            loadData()
 //        }
+        checkUserVersion()
      db = Firebase.firestore
      getArtists()
+    }
+
+    private fun checkUserVersion() {
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO){
+                canAccessToApp.invoke()
+            }
+            _blockVersion.value = !result
+        }
     }
 
     private fun loadData() {
